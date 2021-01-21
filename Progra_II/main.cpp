@@ -12,6 +12,11 @@
 #include <ctime>
 #include <thread>
 
+#include <nlohmann/json.hpp>
+
+// for convenience
+using json = nlohmann::json;
+using namespace std;
 
 // Hilos en teoria
 #include <vector>
@@ -21,7 +26,7 @@
 #include <chrono>
 #include <mutex>
 
-using namespace std;
+
 /*
 int GetRandom(int max){
     srand(time(NULL));
