@@ -94,6 +94,11 @@ void threadReader(){
 void algorGenetico(){
 
 }
+void mutacion(CamionTorque pCamion){
+	srand(time(0));
+	int position = (rand() % 8);
+	pCamion.Cromosoma ^= 1<< position;
+}
 
 
 /*
