@@ -16,22 +16,22 @@
 struct CamionTorque{
 	int Torque;
 	double Energia;
-	char Cromosoma;
+	//char Cromosoma;
 	CamionTorque(int pTorque, double pEnergia, char pCromosoma){
 		this->Torque = pCromosoma;
 		this->Energia = pEnergia;
-		this->Cromosoma = pCromosoma;
+		//this->Cromosoma = pCromosoma;
 	}
 };
 
 struct CamionPliegue{
 	int Pliegue;
 	double Energia;
-	char Cromosoma;
+	//char Cromosoma;
 	CamionPliegue(int pPliegue, double pEnergia, char pCromosoma){
 		this->Pliegue = pCromosoma;
 		this->Energia = pEnergia;
-		this->Cromosoma = pCromosoma;
+	//	this->Cromosoma = pCromosoma;
 	}
 };
 

@@ -11,13 +11,14 @@
 #include <string>
 #include <ctime>
 #include <thread>
+#include <bitset>
 
-#include <nlohmann/json.hpp>
+//#include <nlohmann/json.hpp>
 
 // for convenience
-using json = nlohmann::json;
+//using json = nlohmann::json;
 using namespace std;
-
+using std::bitset;
 // Hilos en teoria
 #include <vector>
 #include <numeric>
@@ -94,13 +95,43 @@ void threadReader(){
 void algorGenetico(){
 
 }
+
+//Pasar el cromosoma a int
 void mutacion(CamionTorque pCamion){
 	srand(time(0));
 	int position = (rand() % 8);
-	pCamion.Cromosoma ^= 1<< position;
+	bitset<8> cromosoma(pCamion.Energia);
+	if(cromosoma[position]==1){
+		cromosoma.reset(position);
+		pCamion.Energia =cromosoma.to_ulong();
+	}
+	else{
+		cromosoma.set(position);
+		pCamion.Energia =cromosoma.to_ulong();
+	}
+
 }
 
-
+void combinacion(CamionTorque pCamionMama, CamionTorque pCamionPapa){
+	srand(time(0));
+	int cantidadMama = (rand() % 5); //Saca 0?
+	int cantidadPapa = 8 - cantidadMama;
+	bitset<8> cromosomaMama(pCamionMama.Energia);
+	bitset<8> cromosomaPapa(pCamionPapa.Energia);
+	bitset<8> cromosomaHijo(0);
+	int position = 0;
+	for( position; position < cantidadMama; position++){
+		if (cromosomaMama[position] == 1){
+			cromosomaHijo.set(position);
+		}
+	}
+	for( position ; position < cantidadPapa; position++){
+			if (cromosomaPapa[position] == 1){
+				cromosomaHijo.set(position);
+			}
+	}
+	//Agregar el dato de la energia del hijo al objeto
+}
 /*
  *
  * */
