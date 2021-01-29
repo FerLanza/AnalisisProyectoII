@@ -17,8 +17,8 @@ struct CamionTorque{
 	int Torque;
 	double Energia;
 	//char Cromosoma;
-	CamionTorque(int pTorque, double pEnergia, char pCromosoma){
-		this->Torque = pCromosoma;
+	CamionTorque(int pTorque, double pEnergia){
+		this->Torque = pTorque;
 		this->Energia = pEnergia;
 		//this->Cromosoma = pCromosoma;
 	}
@@ -28,8 +28,8 @@ struct CamionPliegue{
 	int Pliegue;
 	double Energia;
 	//char Cromosoma;
-	CamionPliegue(int pPliegue, double pEnergia, char pCromosoma){
-		this->Pliegue = pCromosoma;
+	CamionPliegue(int pPliegue, double pEnergia){
+		this->Pliegue = pPliegue;
 		this->Energia = pEnergia;
 	//	this->Cromosoma = pCromosoma;
 	}

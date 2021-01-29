@@ -140,7 +140,7 @@ double energyCalcTorque(int value){
 
 	if(value <= 102){
 		resultado = (2 * (value / 102)) + 4;
-		if(resultado >= 5){
+		if(resultado >= 5 && round(resultado) == 5){
 			resultado ++;
 		}
 		else{
@@ -157,13 +157,14 @@ double energyCalcTorque(int value){
 	}
 	else{
 		resultado = (2 * ((value - 230) / (256 - 230))) + 10;
-		if(resultado >= 11){
+		if(resultado >= 11 && round(resultado) == 11){
 			resultado ++;
 		}
 		else{
 			resultado --;
 		}
 	}
+	resultado =abs(resultado);
 
 	return resultado;
 }
@@ -181,7 +182,7 @@ double energyCalcPliegue(int value){
 	}
 	if(102 < value && value <= 179){
 		resultado = (2.25 * ((value - 102) / (179 - 102))) + 8.25;
-		if(resultado >= 9){
+		if(resultado >= 9 && round(resultado) == 9){
 			resultado ++;
 		}
 		else{
@@ -190,7 +191,7 @@ double energyCalcPliegue(int value){
 	}
 	if(179 < value && value <= 230){
 		resultado = (2.25 * ((value - 179) / (230 - 179))) + 10.5;
-		if(resultado >= 11){
+		if(resultado >= 12 && round(resultado) == 12){
 			resultado ++;
 		}
 		else{
@@ -199,14 +200,14 @@ double energyCalcPliegue(int value){
 	}
 	else{
 		resultado = (2.25 * ((value - 230) / (256 - 230))) + 12.75;
-		if(resultado >= 14){
+		if(resultado >= 14 && round(resultado) == 14){
 			resultado ++;
 		}
 		else{
 			resultado --;
 		}
 	}
-
+	resultado = abs(resultado);
 	return resultado;
 }
 
@@ -242,7 +243,7 @@ int calcTorque(double pEnergia){
 		break;
 	default:
 		cout << "Fallo en la evaluacion del nivel de Torque" << endl;
-		resultado = 0;
+
 		break;
 	}
 
@@ -255,6 +256,7 @@ int calcTorque(double pEnergia){
  * */
 int calcPliegue(double pEnergia){
 	int energia = (int)round(pEnergia);
+	cout <<"Energia" << energia<< endl;
 	int resultado;
 
 	switch(energia){
@@ -280,8 +282,8 @@ int calcPliegue(double pEnergia){
 		resultado = 10;
 		break;
 	default:
-		cout << "Fallo en la evaluacion del nivel de Torque" << endl;
-		resultado = 0;
+		cout << "Fallo en la evaluacion del nivel de pliegue" << endl;
+
 		break;
 	}
 
@@ -295,11 +297,14 @@ int calcPliegue(double pEnergia){
 void newTruck(){
 	srand(time(0));
 	int r = (rand() % 256) + 1;
+	cout <<r << endl;
 	double Torque = energyCalcTorque(r);
 	double Pliegue = energyCalcPliegue(r);
+	cout <<Torque << endl;
+	cout <<Pliegue<< endl;
 
-	camionesT[r] = new CamionTorque(calcTorque(r), Torque, r);
-	camionesP[r] = new CamionPliegue(calcPliegue(r), Pliegue, r);
+	camionesT[r] = new CamionTorque(calcTorque(Torque), Torque);
+	camionesP[r] = new CamionPliegue(calcPliegue(Pliegue), Pliegue);
 
 }
 
@@ -310,8 +315,22 @@ int main(){
 	//std::thread first (threadReader);
 	//std::thread second (algorGenetico);
 
+	for (int i = 0; i < 10 ; i++){
+		srand(time(0));
+			int r = (rand() % 256)+1 ;
+			cout <<r << endl;
+			double Torque = energyCalcTorque(r);
+			double Pliegue = energyCalcPliegue(r);
+			cout <<Torque << endl;
+			cout <<Pliegue<< endl;
 
-
+			camionesT[i] = new CamionTorque(calcTorque(Torque), Torque);
+			camionesP[i] = new CamionPliegue(calcPliegue(Pliegue), Pliegue);
+	}
+	cout <<"cAMION "<<camionesT[0]->Energia << endl;
+	cout <<"cAMION " <<camionesT[0]->Torque << endl;
+	cout <<"cAMION "<<camionesP[0]->Pliegue << endl;
+	cout <<"cAMION "<<camionesP[0]->Energia << endl;
 	//first.join();
 	//second.join();
 
