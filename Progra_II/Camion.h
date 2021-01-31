@@ -30,10 +30,12 @@ struct CamionPliegue{
 	int pliegue;
 	int energia;
 	int cromosoma;
+	double apto;
 	CamionPliegue(int pPliegue, int pEnergia, int pCromosoma){
 		this->pliegue = pPliegue;
 		this->energia = pEnergia;
 	    this->cromosoma = pCromosoma;
+	    this-> apto = 0;
 	}
 };
 
