@@ -100,25 +100,26 @@ void algorGenetico(){
 void mutacion(CamionTorque pCamion){
 	srand(time(0));
 	int position = (rand() % 8);
-	bitset<8> cromosoma(pCamion.Energia);
+	bitset<8> cromosoma(pCamion.cromosoma);
 	if(cromosoma[position]==1){
 		cromosoma.reset(position);
-		pCamion.Energia =cromosoma.to_ulong();
+		pCamion.cromosoma =cromosoma.to_ulong();
 	}
 	else{
 		cromosoma.set(position);
-		pCamion.Energia =cromosoma.to_ulong();
+		pCamion.cromosoma =cromosoma.to_ulong();
 	}
 
 }
 
-void combinacion(CamionTorque pCamionMama, CamionTorque pCamionPapa){
+int combinacion(CamionTorque pCamionMama, CamionTorque pCamionPapa){
 	srand(time(0));
-	int cantidadMama = (rand() % 5); //Saca 0?
+	int cantidadMama = (rand() % 5);
 	int cantidadPapa = 8 - cantidadMama;
-	bitset<8> cromosomaMama(pCamionMama.Energia);
-	bitset<8> cromosomaPapa(pCamionPapa.Energia);
+	bitset<8> cromosomaMama(pCamionMama.cromosoma);
+	bitset<8> cromosomaPapa(pCamionPapa.cromosoma);
 	bitset<8> cromosomaHijo(0);
+
 	int position = 0;
 	for( position; position < cantidadMama; position++){
 		if (cromosomaMama[position] == 1){
@@ -130,7 +131,7 @@ void combinacion(CamionTorque pCamionMama, CamionTorque pCamionPapa){
 				cromosomaHijo.set(position);
 			}
 	}
-	//Agregar el dato de la energia del hijo al objeto
+	return cromosomaHijo.to_ulong();
 }
 /*
  *
@@ -143,7 +144,7 @@ double energyCalcTorque(int value){
 		if(resultado >= 5 && round(resultado) == 5){
 			resultado ++;
 		}
-		else{
+		if(resultado <= 5 && round(resultado) == 5){
 			resultado --;
 		}
 	}
@@ -160,7 +161,7 @@ double energyCalcTorque(int value){
 		if(resultado >= 11 && round(resultado) == 11){
 			resultado ++;
 		}
-		else{
+		if(resultado <= 11 && round(resultado) == 11){
 			resultado --;
 		}
 	}
@@ -185,7 +186,7 @@ double energyCalcPliegue(int value){
 		if(resultado >= 9 && round(resultado) == 9){
 			resultado ++;
 		}
-		else{
+		if(resultado <= 9 && round(resultado) == 9){
 			resultado --;
 		}
 	}
@@ -194,7 +195,7 @@ double energyCalcPliegue(int value){
 		if(resultado >= 12 && round(resultado) == 12){
 			resultado ++;
 		}
-		else{
+		if(resultado <= 12 && round(resultado) == 12){
 			resultado --;
 		}
 	}
@@ -203,11 +204,11 @@ double energyCalcPliegue(int value){
 		if(resultado >= 14 && round(resultado) == 14){
 			resultado ++;
 		}
-		else{
+		if(resultado <= 14 && round(resultado) == 14){
 			resultado --;
 		}
 	}
-	resultado = abs(resultado);
+	resultado = round(abs(resultado));
 	return resultado;
 }
 
@@ -293,23 +294,31 @@ int calcPliegue(double pEnergia){
 
 /*
  *
- * */
+ * *//*
 void newTruck(){
-	srand(time(0));
-	int r = (rand() % 256) + 1;
-	cout <<r << endl;
-	double Torque = energyCalcTorque(r);
-	double Pliegue = energyCalcPliegue(r);
-	cout <<Torque << endl;
-	cout <<Pliegue<< endl;
+	for(int position = 0; position < 10; position ++)
+	{
+		srand(time(0));
+		int cromosoma = (rand() % 256)+1 ;
+		cout <<cromosoma<< endl;
+		int torque = energyCalcTorque(cromosoma);
+		int pliegue = energyCalcPliegue(cromosoma);
+		cout <<torque << endl;
+		cout <<pliegue<< endl;
 
-	camionesT[r] = new CamionTorque(calcTorque(Torque), Torque);
-	camionesP[r] = new CamionPliegue(calcPliegue(Pliegue), Pliegue);
+		camionesT[i] = new CamionTorque(calcTorque(torque), torque, cromosoma);
+		camionesP[i] = new CamionPliegue(calcPliegue(pliegue), pliegue, cromosoma);
+	}
+}*/
 
+/*
+void newSon(CamionTorque pCamionMom , CamionTorque pCamionDad){
+	int cromosoma = combinacion(pCamionMom,pCamionDad);
+	int energia = energyCalcTorque (cromosoma);
+	int torque = calcTorque(energia);
 }
 
-
-
+*/
 int main(){
 
 	//std::thread first (threadReader);
@@ -317,20 +326,20 @@ int main(){
 
 	for (int i = 0; i < 10 ; i++){
 		srand(time(0));
-			int r = (rand() % 256)+1 ;
-			cout <<r << endl;
-			double Torque = energyCalcTorque(r);
-			double Pliegue = energyCalcPliegue(r);
-			cout <<Torque << endl;
-			cout <<Pliegue<< endl;
+			int cromosoma = (rand() % 256)+1 ;
+			cout <<cromosoma<< endl;
+			int torque = energyCalcTorque(cromosoma);
+			int pliegue = energyCalcPliegue(cromosoma);
+			cout <<torque << endl;
+			cout <<pliegue<< endl;
 
-			camionesT[i] = new CamionTorque(calcTorque(Torque), Torque);
-			camionesP[i] = new CamionPliegue(calcPliegue(Pliegue), Pliegue);
+			camionesT[i] = new CamionTorque(calcTorque(torque), torque, cromosoma);
+			camionesP[i] = new CamionPliegue(calcPliegue(pliegue), pliegue, cromosoma);
 	}
-	cout <<"cAMION "<<camionesT[0]->Energia << endl;
-	cout <<"cAMION " <<camionesT[0]->Torque << endl;
-	cout <<"cAMION "<<camionesP[0]->Pliegue << endl;
-	cout <<"cAMION "<<camionesP[0]->Energia << endl;
+	cout <<"cAMION "<<camionesT[0]->energia << endl;
+	cout <<"cAMION " <<camionesT[0]->torque << endl;
+	cout <<"cAMION "<<camionesP[0]->pliegue << endl;
+	cout <<"cAMION "<<camionesP[0]->energia << endl;
 	//first.join();
 	//second.join();
 
