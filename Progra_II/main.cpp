@@ -79,8 +79,6 @@ void ExecuteThread(int id){
 CamionTorque* camionesT[256];
 CamionPliegue* camionesP[256];
 
-
-
 /*
  *
  * */
@@ -96,8 +94,13 @@ void algorGenetico(){
 
 }
 
-//Pasar el cromosoma a int
-void mutacion(CamionTorque pCamion){
+/*
+ *Input: objeto tipo camionTorque.
+ *Output: cromosoma nuevo en el camion que ingreso.
+ *Funcion:Realizar la mutacion del cromosoma, por medio de una selecciona random del bit
+ *y le realiza un not.
+ */
+void mutacionTorque(CamionTorque pCamion){
 	srand(time(0));
 	int position = (rand() % 8);
 	bitset<8> cromosoma(pCamion.cromosoma);
@@ -112,7 +115,33 @@ void mutacion(CamionTorque pCamion){
 
 }
 
-int combinacion(CamionTorque pCamionMama, CamionTorque pCamionPapa){
+/*
+ *Input: un objeto tipo camionPliegue
+ *Output:cromosoma nuevo en el camion que ingreso
+ *Funcion:Realizar la mutación del cromosoma, por medio de una selección random del bit
+ *y le realiza un not.
+ */
+void mutacionPliegue(CamionPliegue pCamion){
+	srand(time(0));
+	int position = (rand() % 8);
+	bitset<8> cromosoma(pCamion.cromosoma);
+	if(cromosoma[position]==1){
+		cromosoma.reset(position);
+		pCamion.cromosoma =cromosoma.to_ulong();
+	}
+	else{
+		cromosoma.set(position);
+		pCamion.cromosoma =cromosoma.to_ulong();
+	}
+
+}
+
+/*
+ *Input: dos objetos tipo CamionTorque uno se considera la madre y el otro el padre.
+ *Output: un int que representa el cromosoma del hijo
+ *Funcion:Combinar ambos bytes para crear un hijo.
+ */
+int combinacionTorque(CamionTorque pCamionMama, CamionTorque pCamionPapa){
 	srand(time(0));
 	int cantidadMama = (rand() % 5);
 	int cantidadPapa = 8 - cantidadMama;
@@ -121,7 +150,7 @@ int combinacion(CamionTorque pCamionMama, CamionTorque pCamionPapa){
 	bitset<8> cromosomaHijo(0);
 
 	int position = 0;
-	for( position; position < cantidadMama; position++){
+	for( position ; position < cantidadMama; position++){
 		if (cromosomaMama[position] == 1){
 			cromosomaHijo.set(position);
 		}
@@ -133,9 +162,39 @@ int combinacion(CamionTorque pCamionMama, CamionTorque pCamionPapa){
 	}
 	return cromosomaHijo.to_ulong();
 }
+
 /*
- *
- * */
+ *Input: dos objetos tipo CamionPliegue uno se considera la madre y el otro el padre.
+ *Output: un int que representa el cromosoma del hijo
+ *Funcion:Combinar ambos bytes para crear un hijo.
+ */
+int combinacionPliegue(CamionPliegue pCamionMama, CamionPliegue pCamionPapa){
+	srand(time(0));
+	int cantidadMama = (rand() % 5);
+	int cantidadPapa = 8 - cantidadMama;
+	bitset<8> cromosomaMama(pCamionMama.cromosoma);
+	bitset<8> cromosomaPapa(pCamionPapa.cromosoma);
+	bitset<8> cromosomaHijo(0);
+
+	int position = 0;
+	for( position ; position < cantidadMama; position++){
+		if (cromosomaMama[position] == 1){
+			cromosomaHijo.set(position);
+		}
+	}
+	for( position ; position < cantidadPapa; position++){
+			if (cromosomaPapa[position] == 1){
+				cromosomaHijo.set(position);
+			}
+	}
+	return cromosomaHijo.to_ulong();
+}
+
+/*
+ *Input: un int que representa el valor de energia en el genotipo
+ *Output: el valor de la energia correspondiente segun la tabla brindada.
+ *Funcion:pasa la energia de su valor de genotipo al fenotipo en el caso del torque .
+ */
 double energyCalcTorque(int value){
 	double resultado;
 
@@ -148,11 +207,11 @@ double energyCalcTorque(int value){
 			resultado --;
 		}
 	}
-	if(102 < value && value <= 179){
+	else if(102 < value && value <= 179){
 
 		resultado = (2 * ((value - 102) / (179 - 102))) + 6;
 	}
-	if(179 < value && value <= 230){
+	else if(179 < value && value <= 230){
 
 		resultado = (2 * ((value - 179) / (230 - 179))) + 8;
 	}
@@ -165,15 +224,17 @@ double energyCalcTorque(int value){
 			resultado --;
 		}
 	}
-	resultado =abs(resultado);
 
+	resultado =round(abs(resultado));
+	cout << "torque entrada " << resultado << endl;
 	return resultado;
 }
 
-
 /*
- *
- * */
+ *Input: un int que representa el valor de energia en el genotipo
+ *Output: el valor de la energia correspondiente segun la tabla brindada.
+ *Funcion:pasa la energia de su valor de genotipo al fenotipo en el caso del pliegue
+ */
 double energyCalcPliegue(int value){
 	double resultado;
 
@@ -181,7 +242,7 @@ double energyCalcPliegue(int value){
 		resultado = (2.25 * (value / 102)) + 6;
 
 	}
-	if(102 < value && value <= 179){
+	else if(102 < value && value <= 179){
 		resultado = (2.25 * ((value - 102) / (179 - 102))) + 8.25;
 		if(resultado >= 9 && round(resultado) == 9){
 			resultado ++;
@@ -190,7 +251,7 @@ double energyCalcPliegue(int value){
 			resultado --;
 		}
 	}
-	if(179 < value && value <= 230){
+	else if(179 < value && value <= 230){
 		resultado = (2.25 * ((value - 179) / (230 - 179))) + 10.5;
 		if(resultado >= 12 && round(resultado) == 12){
 			resultado ++;
@@ -209,18 +270,20 @@ double energyCalcPliegue(int value){
 		}
 	}
 	resultado = round(abs(resultado));
+	cout << "pliegue entrada " << resultado << endl;
 	return resultado;
 }
 
-
 /*
- *
- * */
-int calcTorque(double pEnergia){
-	int energia = (int)round(pEnergia);
+ *Input: int que representa el valor de la energia segun el fenotipo
+ *Output: int representando el valor del torque al que corresponde la energia.
+ *Funcion:Calcular el torque segun la energia ingresada.
+ */
+int calcularTorque(int pEnergia){
+    cout <<"Redondeo energia en Torque " << pEnergia<< endl;
 	int resultado;
 
-	switch(energia){
+	switch(pEnergia){
 	case 4:
 		resultado = 7;
 		break;
@@ -244,23 +307,23 @@ int calcTorque(double pEnergia){
 		break;
 	default:
 		cout << "Fallo en la evaluacion del nivel de Torque" << endl;
-
+		resultado = 0;
 		break;
 	}
 
 	return resultado;
 }
 
-
 /*
- *
- * */
-int calcPliegue(double pEnergia){
-	int energia = (int)round(pEnergia);
-	cout <<"Energia" << energia<< endl;
+ *Input: int que representa el valor de la energia segun el fenotipo
+ *Output: int representando el valor del torque al que corresponde la energia.
+ *Funcion:Calcular el pliegue segun la energia ingresada.
+ */
+int calcularPliegue(int pEnergia){
+	cout <<"Redondeo energia en pliegue " << pEnergia<< endl;
 	int resultado;
 
-	switch(energia){
+	switch(pEnergia){
 	case 6:
 		resultado = 4;
 		break;
@@ -284,7 +347,7 @@ int calcPliegue(double pEnergia){
 		break;
 	default:
 		cout << "Fallo en la evaluacion del nivel de pliegue" << endl;
-
+		resultado = 0;
 		break;
 	}
 
@@ -293,57 +356,63 @@ int calcPliegue(double pEnergia){
 
 
 /*
- *
- * *//*
-void newTruck(){
-	for(int position = 0; position < 10; position ++)
-	{
-		srand(time(0));
-		int cromosoma = (rand() % 256)+1 ;
-		cout <<cromosoma<< endl;
-		int torque = energyCalcTorque(cromosoma);
-		int pliegue = energyCalcPliegue(cromosoma);
-		cout <<torque << endl;
-		cout <<pliegue<< endl;
+ *Input: un int que representa la cantidad de camiones por crear.
+ *Output:Los arrays llenos de objetos.
+ *Funcion:Crear nuevos camiones y guardarlos en los arrays.
+ */
+void newTrucks(int pCantidadCamiones){
+	srand(time(0));
 
-		camionesT[i] = new CamionTorque(calcTorque(torque), torque, cromosoma);
-		camionesP[i] = new CamionPliegue(calcPliegue(pliegue), pliegue, cromosoma);
+	for (int position = 0; position < pCantidadCamiones ; position++){
+
+			int cromosoma = (rand() % 256);
+			cout <<cromosoma<< endl;
+			int torque = energyCalcTorque(cromosoma);
+			cout << "torque salida " << torque << endl;
+			int pliegue = energyCalcPliegue(cromosoma);
+			cout << "pliegue salida " << pliegue << endl;
+
+			camionesT[position] = new CamionTorque(calcularTorque(torque), torque, cromosoma);
+			camionesP[position] = new CamionPliegue(calcularPliegue(pliegue), pliegue, cromosoma);
 	}
-}*/
-
-/*
-void newSon(CamionTorque pCamionMom , CamionTorque pCamionDad){
-	int cromosoma = combinacion(pCamionMom,pCamionDad);
-	int energia = energyCalcTorque (cromosoma);
-	int torque = calcTorque(energia);
 }
 
-*/
+/*
+ *Input: dos objetos tipo camionTorque uno se toma como la madre y el otro como el padre
+ *Output:Se crea un nuevo objeto tipo camionTorque
+ *Funcion:Crear un nuevo hijo apartir de la combinacion de dos hijos.
+ */
+void newSonTorque(CamionTorque pCamionMom , CamionTorque pCamionDad){
+	//ver donde metemos los hijos
+	int cromosoma = combinacionTorque(pCamionMom,pCamionDad);
+	int energia = energyCalcTorque (cromosoma);
+	int torque = calcularTorque(energia);
+}
+
+/*
+ *Input: dos objetos tipo camionPliegue uno se toma como la madre y el otro como el padre
+ *Output:Se crea un nuevo objeto tipo camionTorque
+ *Funcion:Crear un nuevo hijo apartir de la combinacion de dos hijos.
+ */
+void newSonPliegue(CamionPliegue pCamionMom , CamionPliegue pCamionDad){
+	//ver donde metemos los hijos
+	int cromosoma = combinacionPliegue(pCamionMom,pCamionDad);
+	int energia = energyCalcPliegue (cromosoma);
+	int torque = calcularPliegue(energia);
+}
+
+
 int main(){
 
 	//std::thread first (threadReader);
 	//std::thread second (algorGenetico);
+	int cantidadCamiones = 200;
+	newTrucks(cantidadCamiones);
 
-	for (int i = 0; i < 10 ; i++){
-		srand(time(0));
-			int cromosoma = (rand() % 256)+1 ;
-			cout <<cromosoma<< endl;
-			int torque = energyCalcTorque(cromosoma);
-			int pliegue = energyCalcPliegue(cromosoma);
-			cout <<torque << endl;
-			cout <<pliegue<< endl;
-
-			camionesT[i] = new CamionTorque(calcTorque(torque), torque, cromosoma);
-			camionesP[i] = new CamionPliegue(calcPliegue(pliegue), pliegue, cromosoma);
-	}
-	cout <<"cAMION "<<camionesT[0]->energia << endl;
-	cout <<"cAMION " <<camionesT[0]->torque << endl;
-	cout <<"cAMION "<<camionesP[0]->pliegue << endl;
-	cout <<"cAMION "<<camionesP[0]->energia << endl;
 	//first.join();
 	//second.join();
 
+	while(true){
+
+    }
 }
-
-
-
