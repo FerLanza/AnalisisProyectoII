@@ -13,6 +13,8 @@
 #include <ctime>
 #include <thread>
 
+//#include <System.JSON.hpp>
+
 #include "../../Progra_II/nlohmann/json.hpp"
 
  // for convenience
@@ -231,6 +233,17 @@ int main() {
 	//std::thread first (threadReader);
 	//std::thread second (algorGenetico);
 
+	json j2 = { "object", {
+					{"currency", "USD"},
+					{"value", 42.99}
+					},{
+					{"currency", "USD"},
+					{"value", 42.99}
+					}
+			  };
+
+	j2.push_back("val");
+	cout << j2.dump(4) << endl;
 
 
 	//first.join();
