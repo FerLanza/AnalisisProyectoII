@@ -1,4 +1,4 @@
 ﻿  Progra_II_VS.cpp
-C:\Users\dylan\Desktop\GitHub\AnalisisProyectoII\Progra_II_VS\Progra_II_VS\Progra_II_VS.cpp(50,12): warning C4244: 'argumento': conversión de 'time_t' a 'unsigned int'; posible pérdida de datos
-C:\Users\dylan\Desktop\GitHub\AnalisisProyectoII\Progra_II_VS\Progra_II_VS\Progra_II_VS.cpp(217,12): warning C4244: 'argumento': conversión de 'time_t' a 'unsigned int'; posible pérdida de datos
+C:\Users\dylan\Desktop\GitHub\AnalisisProyectoII\Progra_II_VS\Progra_II_VS\Progra_II_VS.cpp(52,12): warning C4244: 'argumento': conversión de 'time_t' a 'unsigned int'; posible pérdida de datos
+C:\Users\dylan\Desktop\GitHub\AnalisisProyectoII\Progra_II_VS\Progra_II_VS\Progra_II_VS.cpp(219,12): warning C4244: 'argumento': conversión de 'time_t' a 'unsigned int'; posible pérdida de datos
   Progra_II_VS.vcxproj -> C:\Users\dylan\Desktop\GitHub\AnalisisProyectoII\Progra_II_VS\Debug\Progra_II_VS.exe
