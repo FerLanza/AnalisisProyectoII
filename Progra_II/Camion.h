@@ -5,8 +5,8 @@
  *      Author: dylan
  */
 
-#ifndef HEADER_H_
-#define HEADER_H_
+#ifndef CAMION_H_
+#define CAMION_H_
 
 #include <cstdlib>
 #include <iostream>
@@ -17,10 +17,12 @@ struct CamionTorque{
 	int torque;
 	int energia;
 	int cromosoma;
+	double apto;
 	CamionTorque(int pTorque, int pEnergia, int pCromosoma){
 		this->torque = pTorque;
 		this->energia = pEnergia;
 		this->cromosoma = pCromosoma;
+		this->apto = 0;
 	}
 };
 
@@ -38,4 +40,4 @@ struct CamionPliegue{
 
 
 
-#endif /* HEADER_H_ */
+#endif /* CAMION_H_ */

@@ -5,13 +5,14 @@
  *      Author: dylan
  */
 
-#include "header.h"
 #include <cstdlib>
 #include <iostream>
 #include <string>
 #include <ctime>
 #include <thread>
 #include <bitset>
+#include "Camion.h"
+#include "Tramo.h"
 
 //#include <nlohmann/json.hpp>
 
@@ -92,6 +93,17 @@ void threadReader(){
  * */
 void algorGenetico(){
 
+}
+//los datos del camino
+//camion , devuelve un int con el porcentaje
+
+void fitnessTorque(CamionTorque pCamion,Camino pCamino, int pEnergiaFirmeza, int pEnergiaHumedad,int pEnergiaAgarre){
+	int kmRecorridos = pCamino.kmEnd - pCamino.kmStart;
+
+	double adaptabilidad = (((((double)pEnergiaFirmeza + (double)pEnergiaHumedad + (double)pEnergiaAgarre)/3)* (double)kmRecorridos)
+	/( (double) pCamion.energia* (double)kmRecorridos));
+
+	pCamion.apto = adaptabilidad;
 }
 
 /*
