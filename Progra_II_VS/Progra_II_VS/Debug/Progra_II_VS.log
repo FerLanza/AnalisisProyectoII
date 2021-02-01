@@ -1,4 +1,13 @@
-﻿  Progra_II_VS.cpp
-C:\Users\dylan\Desktop\GitHub\AnalisisProyectoII\Progra_II_VS\Progra_II_VS\Progra_II_VS.cpp(52,12): warning C4244: 'argumento': conversión de 'time_t' a 'unsigned int'; posible pérdida de datos
-C:\Users\dylan\Desktop\GitHub\AnalisisProyectoII\Progra_II_VS\Progra_II_VS\Progra_II_VS.cpp(219,12): warning C4244: 'argumento': conversión de 'time_t' a 'unsigned int'; posible pérdida de datos
+﻿  JsonReader.cpp
+  Progra_II_VS.cpp
+C:\Users\dylan\Desktop\GitHub\AnalisisProyectoII\Progra_II_VS\Progra_II_VS\Progra_II_VS.cpp(61,12): warning C4244: 'argumento': conversión de 'time_t' a 'unsigned int'; posible pérdida de datos
+C:\Users\dylan\Desktop\GitHub\AnalisisProyectoII\Progra_II_VS\Progra_II_VS\Progra_II_VS.cpp(82,12): warning C4244: 'argumento': conversión de 'time_t' a 'unsigned int'; posible pérdida de datos
+C:\Users\dylan\Desktop\GitHub\AnalisisProyectoII\Progra_II_VS\Progra_II_VS\Progra_II_VS.cpp(102,12): warning C4244: 'argumento': conversión de 'time_t' a 'unsigned int'; posible pérdida de datos
+C:\Users\dylan\Desktop\GitHub\AnalisisProyectoII\Progra_II_VS\Progra_II_VS\Progra_II_VS.cpp(129,12): warning C4244: 'argumento': conversión de 'time_t' a 'unsigned int'; posible pérdida de datos
+C:\Users\dylan\Desktop\GitHub\AnalisisProyectoII\Progra_II_VS\Progra_II_VS\Progra_II_VS.cpp(321,12): warning C4244: 'argumento': conversión de 'time_t' a 'unsigned int'; posible pérdida de datos
+C:\Users\dylan\Desktop\GitHub\AnalisisProyectoII\Progra_II_VS\Progra_II_VS\Progra_II_VS.cpp(327,14): warning C4244: 'inicializando': conversión de 'double' a 'int'; posible pérdida de datos
+C:\Users\dylan\Desktop\GitHub\AnalisisProyectoII\Progra_II_VS\Progra_II_VS\Progra_II_VS.cpp(329,15): warning C4244: 'inicializando': conversión de 'double' a 'int'; posible pérdida de datos
+C:\Users\dylan\Desktop\GitHub\AnalisisProyectoII\Progra_II_VS\Progra_II_VS\Progra_II_VS.cpp(345,14): warning C4244: 'inicializando': conversión de 'double' a 'int'; posible pérdida de datos
+C:\Users\dylan\Desktop\GitHub\AnalisisProyectoII\Progra_II_VS\Progra_II_VS\Progra_II_VS.cpp(357,14): warning C4244: 'inicializando': conversión de 'double' a 'int'; posible pérdida de datos
+  Generando código...
   Progra_II_VS.vcxproj -> C:\Users\dylan\Desktop\GitHub\AnalisisProyectoII\Progra_II_VS\Debug\Progra_II_VS.exe

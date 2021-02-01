@@ -139,11 +139,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="JsonReader.cpp" />
     <ClCompile Include="Progra_II_VS.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Progra_II\nlohmann\json.hpp" />
     <ClInclude Include="Camion.h" />
+    <ClInclude Include="JsonReader.h" />
+    <ClInclude Include="Tramo.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

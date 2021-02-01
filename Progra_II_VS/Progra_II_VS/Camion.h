@@ -16,24 +16,24 @@
 #include <stdio.h>
 
 struct CamionTorque {
-	int Torque;
-	double Energia;
-	char Cromosoma;
-	CamionTorque(int pTorque, double pEnergia, char pCromosoma) {
-		this->Torque = pCromosoma;
-		this->Energia = pEnergia;
-		this->Cromosoma = pCromosoma;
+	int torque;
+	int energia;
+	int cromosoma;
+	CamionTorque(int pTorque, int pEnergia, int pCromosoma) {
+		this->torque = pTorque;
+		this->energia = pEnergia;
+		this->cromosoma = pCromosoma;
 	}
 };
 
 struct CamionPliegue {
-	int Pliegue;
-	double Energia;
-	char Cromosoma;
-	CamionPliegue(int pPliegue, double pEnergia, char pCromosoma) {
-		this->Pliegue = pCromosoma;
-		this->Energia = pEnergia;
-		this->Cromosoma = pCromosoma;
+	int pliegue;
+	int energia;
+	int cromosoma;
+	CamionPliegue(int pPliegue, int pEnergia, int pCromosoma) {
+		this->pliegue = pPliegue;
+		this->energia = pEnergia;
+		this->cromosoma = pCromosoma;
 	}
 };
 

@@ -21,6 +21,9 @@
     <ClCompile Include="Progra_II_VS.cpp">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
+    <ClCompile Include="JsonReader.cpp">
+      <Filter>Archivos de origen</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Camion.h">
@@ -28,6 +31,12 @@
     </ClInclude>
     <ClInclude Include="..\..\Progra_II\nlohmann\json.hpp">
       <Filter>Archivos de origen\nlohmann</Filter>
+    </ClInclude>
+    <ClInclude Include="JsonReader.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="Tramo.h">
+      <Filter>Archivos de encabezado</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
