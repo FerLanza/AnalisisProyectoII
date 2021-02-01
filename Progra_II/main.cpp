@@ -5,13 +5,14 @@
  *      Author: dylan
  */
 
-#include "header.h"
 #include <cstdlib>
 #include <iostream>
 #include <string>
 #include <ctime>
 #include <thread>
 #include <bitset>
+#include "Camion.h"
+#include "Tramo.h"
 
 //#include <nlohmann/json.hpp>
 
@@ -92,6 +93,38 @@ void threadReader(){
  * */
 void algorGenetico(){
 
+}
+
+/*
+ *Input:
+ *Output: cambia el atributo que indica la adaptabilidad.
+ *Funcion:calcula los km que se recorren en el tramo , seguidamente realiza una operacion que calcula que tan apto es el camion
+ *esto se logra por medio de un promedio de las energias de los torques a los cuales entra cada atributo del tramo esto entre la energia del
+ *camion por los km que debe recorrer.
+ */
+void fitnessTorque(CamionTorque pCamion,Camino pCamino, int pEnergiaFirmeza, int pEnergiaHumedad,int pEnergiaAgarre){
+	int kmRecorridos = pCamino.kmEnd - pCamino.kmStart;
+
+	double adaptabilidad = (((((double)pEnergiaFirmeza + (double)pEnergiaHumedad + (double)pEnergiaAgarre)/3)* (double)kmRecorridos)
+	/( (double) pCamion.energia* (double)kmRecorridos));
+
+	pCamion.apto = adaptabilidad;
+}
+
+/*
+ *Input:
+ *Output: cambia el atributo que indica la adaptabilidad.
+ *Funcion:calcula los km que se recorren en el tramo , seguidamente realiza una operacion que calcula que tan apto es el camion
+ *esto se logra por medio de un promedio de las energias de los pliegues a los cuales entra cada atributo del tramo esto entre la energia del
+ *camion por los km que debe recorrer.
+ */
+void fitnessPliegue(CamionPliegue pCamion,Camino pCamino, int pEnergiaFirmeza, int pEnergiaHumedad,int pEnergiaAgarre){
+	int kmRecorridos = pCamino.kmEnd - pCamino.kmStart;
+
+	double adaptabilidad = (((((double)pEnergiaFirmeza + (double)pEnergiaHumedad + (double)pEnergiaAgarre)/3)* (double)kmRecorridos)
+	/( (double) pCamion.energia* (double)kmRecorridos));
+
+	pCamion.apto = adaptabilidad;
 }
 
 /*
