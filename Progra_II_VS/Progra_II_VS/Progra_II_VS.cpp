@@ -309,10 +309,10 @@ void threadReader() {
  *esto se logra por medio de un promedio de las energias de los torques a los cuales entra cada atributo del tramo esto entre la energia del
  *camion por los km que debe recorrer.
  */
-void fitnessTorque(CamionTorque* pCamion, Camino pCamino, int pEnergiaFirmeza, int pEnergiaHumedad, int pEnergiaAgarre) {
+void fitnessTorque(CamionTorque* pCamion, Camino pCamino, int pEnergiaTramo) {
 	int kmRecorridos = pCamino.kmEnd - pCamino.kmStart;
 
-	double adaptabilidad = (((((double)pEnergiaFirmeza + (double)pEnergiaHumedad + (double)pEnergiaAgarre) / 3) * (double)kmRecorridos)
+	double adaptabilidad = ((((double)pEnergiaTramo / 3) * (double)kmRecorridos)
 		/ ((double)pCamion->energia * (double)kmRecorridos));
 
 	pCamion->apto = adaptabilidad;
@@ -325,10 +325,10 @@ void fitnessTorque(CamionTorque* pCamion, Camino pCamino, int pEnergiaFirmeza, i
  *esto se logra por medio de un promedio de las energias de los pliegues a los cuales entra cada atributo del tramo esto entre la energia del
  *camion por los km que debe recorrer.
  */
-void fitnessPliegue(CamionPliegue* pCamion, Camino pCamino, int pEnergiaFirmeza, int pEnergiaHumedad, int pEnergiaAgarre) {
+void fitnessPliegue(CamionPliegue* pCamion, Camino pCamino, int pEnergiaTramo) {
 	int kmRecorridos = pCamino.kmEnd - pCamino.kmStart;
 
-	double adaptabilidad = (((((double)pEnergiaFirmeza + (double)pEnergiaHumedad + (double)pEnergiaAgarre) / 3) * (double)kmRecorridos)
+	double adaptabilidad = ((((double)pEnergiaTramo / 3) * (double)kmRecorridos)
 		/ ((double)pCamion->energia * (double)kmRecorridos));
 
 	pCamion->apto = adaptabilidad;
@@ -340,17 +340,17 @@ void fitnessPliegue(CamionPliegue* pCamion, Camino pCamino, int pEnergiaFirmeza,
  *Funcion:Realizar la mutacion del cromosoma, por medio de una selecciona random del bit
  *y le realiza un not.
  */
-void mutacionTorque(CamionTorque pCamion) {
+void mutacionTorque(CamionTorque* pCamion) {
 	srand(time(0));
 	int position = (rand() % 8);
-	bitset<8> cromosoma(pCamion.cromosoma);
+	bitset<8> cromosoma(pCamion->cromosoma);
 	if (cromosoma[position] == 1) {
 		cromosoma.reset(position);
-		pCamion.cromosoma = cromosoma.to_ulong();
+		pCamion->cromosoma = cromosoma.to_ulong();
 	}
 	else {
 		cromosoma.set(position);
-		pCamion.cromosoma = cromosoma.to_ulong();
+		pCamion->cromosoma = cromosoma.to_ulong();
 	}
 
 }
@@ -361,17 +361,17 @@ void mutacionTorque(CamionTorque pCamion) {
  *Funcion:Realizar la mutación del cromosoma, por medio de una selección random del bit
  *y le realiza un not.
  */
-void mutacionPliegue(CamionPliegue pCamion) {
+void mutacionPliegue(CamionPliegue* pCamion) {
 	srand(time(0));
 	int position = (rand() % 8);
-	bitset<8> cromosoma(pCamion.cromosoma);
+	bitset<8> cromosoma(pCamion->cromosoma);
 	if (cromosoma[position] == 1) {
 		cromosoma.reset(position);
-		pCamion.cromosoma = cromosoma.to_ulong();
+		pCamion->cromosoma = cromosoma.to_ulong();
 	}
 	else {
 		cromosoma.set(position);
-		pCamion.cromosoma = cromosoma.to_ulong();
+		pCamion->cromosoma = cromosoma.to_ulong();
 	}
 
 }
@@ -607,6 +607,10 @@ void newSonTorque(CamionTorque* pCamionMom, CamionTorque* pCamionDad) {
 	int torque = calcularTorque(energia);
 	//Aplicar la mutacion 
 	CamionTorque* tmp = new CamionTorque(torque, energia, cromosoma);
+	srand(0);
+	if (rand() % 100 < 20) {
+		mutacionTorque(tmp);
+	}
 	camionesT.push_front(tmp);
 }
 
@@ -622,6 +626,10 @@ void newSonPliegue(CamionPliegue* pCamionMom, CamionPliegue* pCamionDad) {
 	int pliegue = calcularPliegue(energia);
 
 	CamionPliegue* tmp = new CamionPliegue(pliegue, energia, cromosoma);
+	srand(0);
+	if (rand() % 100 < 20) {
+		mutacionPliegue(tmp);
+	}
 	camionesP.push_front(tmp);
 }
 
@@ -722,28 +730,27 @@ void algorGenetico() {
 
 			CamionTorque* tmpTorque;							//Genero un temporal con un puntero al camion que trabajaremos
 
-			for (list<CamionTorque*>::iterator position = camionesT.begin(); position != camionesT.end(); position++) {
-				tmpTorque = *position;
-				int pEnergiaFirmeza = 7;						//Mando a llamar las funciones que calcula en cual torque entraria el dato del tramo
-				int pEnergiaHumedad = 8;
-				int pEnergiaAgarre = 9;
-				fitnessTorque(tmpTorque, road, pEnergiaFirmeza, pEnergiaHumedad, pEnergiaAgarre);		//Pasa cada uno de los camiones por la funcion de fitness 
-			}
+			for (int first = 0; first < 10; first++) {
+				for (list<CamionTorque*>::iterator position = camionesT.begin(); position != camionesT.end(); position++) {
+					tmpTorque = *position;
+					int pEnergiaTramoTorque = energiaTramoTorque();
+					fitnessTorque(tmpTorque, road, pEnergiaTramoTorque);		//Pasa cada uno de los camiones por la funcion de fitness 
+				}
 
-			CamionPliegue* tmpPliegue;						//Genero un temporal con un puntero al camion que trabajaremos en el caso del pliegue 
-			for (list<CamionPliegue*>::iterator element = camionesP.begin(); element != camionesP.end(); element++) {
-				tmpPliegue = *element;
-				int pEnergiaFirmeza = 7;						 //Mando a llamar las funciones que calcula en cual torque entraria el dato del tramo
-				int pEnergiaHumedad = 8;
-				int pEnergiaAgarre = 9;
-				fitnessPliegue(tmpPliegue, road, pEnergiaFirmeza, pEnergiaHumedad, pEnergiaAgarre);		//Pasa cada uno de los camiones por la funcion de fitness 
-			}
+				CamionPliegue* tmpPliegue;						//Genero un temporal con un puntero al camion que trabajaremos en el caso del pliegue 
+				for (list<CamionPliegue*>::iterator element = camionesP.begin(); element != camionesP.end(); element++) {
+					tmpPliegue = *element;
+					int pEnergiaTramo = energiaTramoPliegue();
+					fitnessPliegue(tmpPliegue, road, pEnergiaTramo);		//Pasa cada uno de los camiones por la funcion de fitness 
+				}
+				//Combinar  y se muta 
+				seleccionPadresTorque();
+				seleccionPadresPliegue();
 
-			//Combinar 
-			//Revisar si se muta 
+			}
+			hiloGenetico = false;
+			hiloReader = true;
 			// cambiar banderas 
-			// ver repeticiones  
-
 
 		}
 	}
