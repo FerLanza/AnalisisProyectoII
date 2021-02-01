@@ -8,41 +8,71 @@
 
 #include "Camion.h"
 #include "JsonReader.h"
+
 #include <cstdlib>
 #include <iostream>
 #include <string>
 #include <ctime>
+#include <cmath>
 #include <thread>
+#include <chrono>
+#include <mutex>
+
 #include <bitset>
 #include <stack>
+#include <list>
 
-//#include <System.JSON.hpp>
-
-#include "../../Progra_II/nlohmann/json.hpp"
-
- // for convenience
-using json = nlohmann::json;
 using namespace std;
 using std::bitset;
 
 // Hilos en teoria
 #include <vector>
 #include <numeric>
-#include <cmath>
 #include <sstream>
-#include <chrono>
-#include <mutex>
 
+//CamionTorque* camionesT[256];
+//CamionPliegue* camionesP[256];
 
-CamionTorque* camionesT[256];
-CamionPliegue* camionesP[256];
+list<CamionTorque*> camionesT;
+list<CamionPliegue*> camionesP;
+
+Camino road;
+bool hiloReader = true;
+bool hiloGenetico = false;
+
+/*
+ *
+ */
+stack<Camino> loadFiles() {
+	fileReader();
+	return stackCreator();
+}
+
 
 /*
  *
  * */
 void threadReader() {
-	fileReader();
-	stack<Camino*> pila = stackCreator();
+	stack<Camino> rutas = loadFiles();
+
+	Camino tmp;
+	rutas.pop();
+
+	while (true) {
+		if (hiloReader) {
+			if (rutas.size() != 0) {
+				tmp = rutas.top();
+				road.kmStart = tmp.kmStart;
+				road.kmEnd = tmp.kmEnd;
+				road.firmeza = tmp.firmeza;
+				road.humedad = tmp.humedad;
+				road.agarre = tmp.agarre;
+				rutas.pop();
+				hiloReader = false;
+				hiloGenetico = true;
+			}
+		}
+	}
 }
 
 
@@ -51,6 +81,38 @@ void threadReader() {
  * */
 void algorGenetico() {
 
+}
+
+/*
+ *Input:
+ *Output: cambia el atributo que indica la adaptabilidad.
+ *Funcion:calcula los km que se recorren en el tramo , seguidamente realiza una operacion que calcula que tan apto es el camion
+ *esto se logra por medio de un promedio de las energias de los torques a los cuales entra cada atributo del tramo esto entre la energia del
+ *camion por los km que debe recorrer.
+ */
+void fitnessTorque(CamionTorque pCamion, Camino pCamino, int pEnergiaFirmeza, int pEnergiaHumedad, int pEnergiaAgarre) {
+	int kmRecorridos = pCamino.kmEnd - pCamino.kmStart;
+
+	double adaptabilidad = (((((double)pEnergiaFirmeza + (double)pEnergiaHumedad + (double)pEnergiaAgarre) / 3) * (double)kmRecorridos)
+		/ ((double)pCamion.energia * (double)kmRecorridos));
+
+	pCamion.apto = adaptabilidad;
+}
+
+/*
+ *Input:
+ *Output: cambia el atributo que indica la adaptabilidad.
+ *Funcion:calcula los km que se recorren en el tramo , seguidamente realiza una operacion que calcula que tan apto es el camion
+ *esto se logra por medio de un promedio de las energias de los pliegues a los cuales entra cada atributo del tramo esto entre la energia del
+ *camion por los km que debe recorrer.
+ */
+void fitnessPliegue(CamionPliegue pCamion, Camino pCamino, int pEnergiaFirmeza, int pEnergiaHumedad, int pEnergiaAgarre) {
+	int kmRecorridos = pCamino.kmEnd - pCamino.kmStart;
+
+	double adaptabilidad = (((((double)pEnergiaFirmeza + (double)pEnergiaHumedad + (double)pEnergiaAgarre) / 3) * (double)kmRecorridos)
+		/ ((double)pCamion.energia * (double)kmRecorridos));
+
+	pCamion.apto = adaptabilidad;
 }
 
 /*
@@ -322,6 +384,8 @@ int calcularPliegue(int pEnergia) {
 void newTrucks(int pCantidadCamiones) {
 	srand(time(0));
 
+	list<CamionTorque*> ::iterator it = camionesT.begin();
+	list<CamionPliegue*> ::iterator it2 = camionesP.begin();
 	for (int position = 0; position < pCantidadCamiones; position++) {
 
 		int cromosoma = (rand() % 256);
@@ -331,8 +395,11 @@ void newTrucks(int pCantidadCamiones) {
 		int pliegue = energyCalcPliegue(cromosoma);
 		cout << "pliegue salida " << pliegue << endl;
 
-		camionesT[position] = new CamionTorque(calcularTorque(torque), torque, cromosoma);
-		camionesP[position] = new CamionPliegue(calcularPliegue(pliegue), pliegue, cromosoma);
+		camionesT.insert(it, new CamionTorque(calcularTorque(torque), torque, cromosoma));
+		camionesP.insert(it2, new CamionPliegue(calcularPliegue(pliegue), pliegue, cromosoma));
+
+		//camionesT[position] = new CamionTorque(calcularTorque(torque), torque, cromosoma);
+		//camionesP[position] = new CamionPliegue(calcularPliegue(pliegue), pliegue, cromosoma);
 	}
 }
 
@@ -363,11 +430,30 @@ void newSonPliegue(CamionPliegue pCamionMom, CamionPliegue pCamionDad) {
 
 int main() {
 
-	//std::thread first (threadReader);
-	//std::thread second (algorGenetico);
+	std::thread first (threadReader);
+	std::thread second (algorGenetico);
+
 	int cantidadCamiones = 200;
 	newTrucks(cantidadCamiones);
 
-	//first.join();
-	//second.join();
+	for (list<CamionTorque*>::iterator i = camionesT.begin(); i != camionesT.end(); i++) {
+		cout << *i << " ";
+	}
+
+	/*
+	list<CamionTorque*> ::iterator it = camionesT.begin();
+	CamionTorque* tmp = camionesT.front();
+	cout << tmp->cromosoma << endl;
+
+	advance(it, 1);
+	tmp = *it;
+
+	cout << tmp->cromosoma << endl;
+	*/
+
+	first.join();
+	second.join();
+	
+
+
 }

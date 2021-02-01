@@ -1,18 +1,19 @@
 
 #include "JsonReader.h"
 
-Camino* Tramos[100];
+Camino Tramos[100];
 int contador = 0;
 
 /*
  *
  *
  */
-stack<Camino*> stackCreator(int tramos) {
+stack<Camino> stackCreator() {
     
-    stack<Camino*> mystack;
-    for (int i = tramos; i >= 0; i--) {
-        mystack.push(Tramos[i-1]);
+    stack<Camino> mystack;
+    for (int i = contador - 1; i >= 0; i--) {
+
+        mystack.push(Tramos[i]);
     }
     return mystack;
 }
@@ -54,8 +55,10 @@ void fileReader() {
 		}
 
 		counter++;
-		Tramos[i] = new Camino();
-		Tramos[i]->kmStart = stoi(x);
+		counter++;
+
+		//Tramos[i] = new Camino();
+		Tramos[i].kmStart = stoi(x);
 
 		x = "";
 		x += jsonValue[counter];
@@ -69,7 +72,8 @@ void fileReader() {
 		}
 
 		counter++;
-		Tramos[i]->kmEnd = stoi(x);
+		counter++;
+		Tramos[i].kmEnd = stoi(x);
 
 		x = "";
 		x += jsonValue[counter];
@@ -83,7 +87,8 @@ void fileReader() {
 		}
 
 		counter++;
-		Tramos[i]->firmeza = stoi(x);
+		counter++;
+		Tramos[i].firmeza = stoi(x);
 
 		x = "";
 		x += jsonValue[counter];
@@ -97,7 +102,8 @@ void fileReader() {
 		}
 
 		counter++;
-		Tramos[i]->humedad = stoi(x);
+		counter++;
+		Tramos[i].humedad = stoi(x);
 
 		x = "";
 		x += jsonValue[counter];
@@ -111,7 +117,8 @@ void fileReader() {
 		}
 
 		counter++;
-		Tramos[i]->agarre = stoi(x);
+		counter++;
+		Tramos[i].agarre = stoi(x);
 
 		contador++;
 		

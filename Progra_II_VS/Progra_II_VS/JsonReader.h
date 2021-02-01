@@ -1,9 +1,11 @@
 #pragma once
 
 #include "Tramo.h"
+
 #include <cstdlib>
 #include <iostream>
 #include <string>
+
 #include <stack>
 #include "../../Progra_II/nlohmann/json.hpp"
 
@@ -11,5 +13,5 @@
 using json = nlohmann::json;
 using namespace std;
 
-stack<Camino*> stackCreator();
+stack<Camino> stackCreator();
 void fileReader();

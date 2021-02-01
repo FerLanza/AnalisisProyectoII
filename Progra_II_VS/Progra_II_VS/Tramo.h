@@ -12,30 +12,13 @@
 
 struct Camino {
 
-	int kmStart;
-	int kmEnd;
-	int firmeza;
-	int humedad;
-	int agarre;
+	int kmStart = 0;
+	int kmEnd = 0;
+	int firmeza = 0;
+	int humedad = 0;
+	int agarre = 0;
 
-	Camino() {
-		this->kmStart = 0;
-		this->kmEnd = 0;
-		this->firmeza = 0;
-		this->humedad = 0;
-		this->agarre = 0;
-	}
-
-	Camino(int pKmStart, int pKmEnd, int pFirmeza, int pHumedad, int pAgarre) {
-		this->kmStart = pKmStart;
-		this->kmEnd = pKmEnd;
-		this->firmeza = pFirmeza;
-		this->humedad = pHumedad;
-		this->agarre = pAgarre;
-	}
 };
-
-
 
 
 #endif /* TRAMO_H_ */
