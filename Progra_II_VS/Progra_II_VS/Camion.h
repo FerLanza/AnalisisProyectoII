@@ -11,6 +11,7 @@
 #define HEADER_H_
 
 struct CamionTorque {
+	double apto;
 	int torque;
 	int energia;
 	int cromosoma;
@@ -24,10 +25,10 @@ struct CamionTorque {
 };
 
 struct CamionPliegue {
+	double apto;
 	int pliegue;
 	int energia;
 	int cromosoma;
-	double apto;
 	CamionPliegue(int pPliegue, int pEnergia, int pCromosoma) {
 		this->pliegue = pPliegue;
 		this->energia = pEnergia;
