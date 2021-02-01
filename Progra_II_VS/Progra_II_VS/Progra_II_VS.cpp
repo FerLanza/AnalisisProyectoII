@@ -52,6 +52,231 @@ stack<Camino> loadFiles() {
 
 /*
  *
+ */
+int energiaTramoTorque() {
+
+	int pEnergia = 0;
+
+	int firmezaE = 0;
+	int humedadE = 0;
+	int agarreE = 0;
+
+	int firmezaT[7] = { 40,30,20,60,65,80,100 };
+	int humedadT[6] = { 100,70,60,55,40,20 };
+	int agarreT[7] = { 30,20,10,50,70,90,100 };
+
+	for (int i = 0; i < 7; i++) {
+		if (road.firmeza >= firmezaT[i]) {
+			pEnergia = i;
+
+		}
+	}
+
+	switch (pEnergia)
+	{
+	case 0:
+		firmezaE = 9;
+		break;
+	case 1:
+		firmezaE = 10;
+		break;
+	case 2:
+		firmezaE = 12;
+		break;
+	case 3:
+		firmezaE = 8;
+		break;
+	case 4:
+		firmezaE = 7;
+		break;
+	case 5:
+		firmezaE = 6;
+		break;
+	case 6:
+		firmezaE = 4;
+		break;
+	}
+
+	for (int i = 0; i < 6; i++) {
+		if (road.firmeza >= humedadT[i]) {
+			pEnergia = i;
+		}
+	}
+
+	switch (pEnergia)
+	{
+	case 0:
+		humedadE = 10;
+		break;
+	case 1:
+		humedadE = 9;
+		break;
+	case 2:
+		humedadE = 8;
+		break;
+	case 3:
+		humedadE = 7;
+		break;
+	case 4:
+		humedadE = 6;
+		break;
+	case 5:
+		humedadE = 4;
+		break;
+	}
+
+	for (int i = 0; i < 7; i++) {
+		if (road.firmeza >= agarreT[i]) {
+			pEnergia = i;
+
+		}
+	}
+
+	switch (pEnergia)
+	{
+	case 0:
+		agarreE = 9;
+		break;
+	case 1:
+		agarreE = 10;
+		break;
+	case 2:
+		agarreE = 12;
+		break;
+	case 3:
+		agarreE = 8;
+		break;
+	case 4:
+		agarreE = 7;
+		break;
+	case 5:
+		agarreE = 6;
+		break;
+	case 6:
+		agarreE = 4;
+		break;
+	}
+
+	return (firmezaE + agarreE + humedadE);
+}
+
+
+/*
+ *
+ */
+int energiaTramoPliegue() {
+
+	int pEnergia = 0;
+
+	int firmezaE = 0;
+	int humedadE = 0;
+	int agarreE = 0;
+
+	int firmezaP[7] = { 10,15,20,25,50,75,100 };
+	int humedadP[7] = { 100,90,80,75,60,45,20 };
+	int agarreP[7] = { 5,10,25,30,50,80,100 };
+
+	for (int i = 0; i < 7; i++) {
+		if (road.firmeza >= firmezaP[i]) {
+			pEnergia = i;
+
+		}
+	}
+
+	switch (pEnergia)
+	{
+	case 0:
+		firmezaE = 15;
+		break;
+	case 1:
+		firmezaE = 13;
+		break;
+	case 2:
+		firmezaE = 11;
+		break;
+	case 3:
+		firmezaE = 10;
+		break;
+	case 4:
+		firmezaE = 8;
+		break;
+	case 5:
+		firmezaE = 7;
+		break;
+	case 6:
+		firmezaE = 6;
+		break;
+	}
+
+	for (int i = 0; i < 7; i++) {
+		if (road.firmeza >= humedadP[i]) {
+			pEnergia = i;
+		}
+	}
+
+	switch (pEnergia)
+	{
+	case 0:
+		firmezaE = 15;
+		break;
+	case 1:
+		firmezaE = 13;
+		break;
+	case 2:
+		firmezaE = 11;
+		break;
+	case 3:
+		firmezaE = 10;
+		break;
+	case 4:
+		firmezaE = 8;
+		break;
+	case 5:
+		firmezaE = 7;
+		break;
+	case 6:
+		firmezaE = 6;
+		break;
+	}
+
+	for (int i = 0; i < 7; i++) {
+		if (road.firmeza >= agarreP[i]) {
+			pEnergia = i;
+
+		}
+	}
+
+	switch (pEnergia)
+	{
+	case 0:
+		firmezaE = 15;
+		break;
+	case 1:
+		firmezaE = 13;
+		break;
+	case 2:
+		firmezaE = 11;
+		break;
+	case 3:
+		firmezaE = 10;
+		break;
+	case 4:
+		firmezaE = 8;
+		break;
+	case 5:
+		firmezaE = 7;
+		break;
+	case 6:
+		firmezaE = 6;
+		break;
+	}
+
+	return (firmezaE + agarreE + humedadE);
+}
+
+
+/*
+ *
  * */
 void threadReader() {
 	stack<Camino> rutas = loadFiles();
@@ -76,47 +301,6 @@ void threadReader() {
 	}
 }
 
-
-/*
- *
- * */
-void algorGenetico() {
-	
-	while (true) {
-		newTrucks(cantidadCamiones);							//Se inicia una poblacion desde 0
-		if (hiloGenetico) {
-			camionesT.sort();								//Ordeno las listas conforme el parametro de apto , asi llevamos un ranking
-			camionesP.sort();
-
-			CamionTorque* tmpTorque;							//Genero un temporal con un puntero al camion que trabajaremos
-
-			for (list<CamionTorque*>::iterator position = camionesT.begin(); position != camionesT.end(); position++) {
-				tmpTorque = *position;
-				int pEnergiaFirmeza = 7;						//Mando a llamar las funciones que calcula en cual torque entraria el dato del tramo
-				int pEnergiaHumedad = 8;
-				int pEnergiaAgarre = 9;
-				fitnessTorque(tmpTorque, road, pEnergiaFirmeza, pEnergiaHumedad, pEnergiaAgarre);		//Pasa cada uno de los camiones por la funcion de fitness 
-			}
-
-			CamionPliegue* tmpPliegue;						//Genero un temporal con un puntero al camion que trabajaremos en el caso del pliegue 
-			for (list<CamionPliegue*>::iterator element = camionesP.begin(); element != camionesP.end(); element++) {
-				tmpPliegue = *element;
-				int pEnergiaFirmeza = 7;						 //Mando a llamar las funciones que calcula en cual torque entraria el dato del tramo
-				int pEnergiaHumedad = 8;
-				int pEnergiaAgarre = 9;
-				fitnessPliegue(tmpPliegue, road, pEnergiaFirmeza, pEnergiaHumedad, pEnergiaAgarre);		//Pasa cada uno de los camiones por la funcion de fitness 
-			}
-
-			//Combinar 
-			//Revisar si se muta 
-			// cambiar banderas 
-			// ver repeticiones  
-
-
-		}
-	}
-
-}
 
 /*
  *Input:
@@ -197,12 +381,12 @@ void mutacionPliegue(CamionPliegue pCamion) {
  *Output: un int que representa el cromosoma del hijo
  *Funcion:Combinar ambos bytes para crear un hijo.
  */
-int combinacionTorque(CamionTorque pCamionMama, CamionTorque pCamionPapa) {
+int combinacionTorque(CamionTorque* pCamionMama, CamionTorque* pCamionPapa) {
 	srand(time(0));
 	int cantidadMama = (rand() % 5);
 	int cantidadPapa = 8 - cantidadMama;
-	bitset<8> cromosomaMama(pCamionMama.cromosoma);
-	bitset<8> cromosomaPapa(pCamionPapa.cromosoma);
+	bitset<8> cromosomaMama(pCamionMama->cromosoma);
+	bitset<8> cromosomaPapa(pCamionPapa->cromosoma);
 	bitset<8> cromosomaHijo(0);
 
 	int position = 0;
@@ -224,12 +408,12 @@ int combinacionTorque(CamionTorque pCamionMama, CamionTorque pCamionPapa) {
  *Output: un int que representa el cromosoma del hijo
  *Funcion:Combinar ambos bytes para crear un hijo.
  */
-int combinacionPliegue(CamionPliegue pCamionMama, CamionPliegue pCamionPapa) {
+int combinacionPliegue(CamionPliegue* pCamionMama, CamionPliegue* pCamionPapa) {
 	srand(time(0));
 	int cantidadMama = (rand() % 5);
 	int cantidadPapa = 8 - cantidadMama;
-	bitset<8> cromosomaMama(pCamionMama.cromosoma);
-	bitset<8> cromosomaPapa(pCamionPapa.cromosoma);
+	bitset<8> cromosomaMama(pCamionMama->cromosoma);
+	bitset<8> cromosomaPapa(pCamionPapa->cromosoma);
 	bitset<8> cromosomaHijo(0);
 
 	int position = 0;
@@ -412,6 +596,93 @@ int calcularPliegue(int pEnergia) {
 
 
 /*
+ *Input: dos objetos tipo camionTorque uno se toma como la madre y el otro como el padre
+ *Output:Se crea un nuevo objeto tipo camionTorque
+ *Funcion:Crear un nuevo hijo apartir de la combinacion de dos hijos.
+ */
+void newSonTorque(CamionTorque* pCamionMom, CamionTorque* pCamionDad) {
+	//ver donde metemos los hijos
+	int cromosoma = combinacionTorque(pCamionMom, pCamionDad);
+	int energia = energyCalcTorque(cromosoma);
+	int torque = calcularTorque(energia);
+	//Aplicar la mutacion 
+	CamionTorque* tmp = new CamionTorque(torque, energia, cromosoma);
+	camionesT.push_front(tmp);
+}
+
+/*
+ *Input: dos objetos tipo camionPliegue uno se toma como la madre y el otro como el padre
+ *Output:Se crea un nuevo objeto tipo camionTorque
+ *Funcion:Crear un nuevo hijo apartir de la combinacion de dos hijos.
+ */
+void newSonPliegue(CamionPliegue* pCamionMom, CamionPliegue* pCamionDad) {
+	//ver donde metemos los hijos
+	int cromosoma = combinacionPliegue(pCamionMom, pCamionDad);
+	int energia = energyCalcPliegue(cromosoma);
+	int pliegue = calcularPliegue(energia);
+
+	CamionPliegue* tmp = new CamionPliegue(pliegue, energia, cromosoma);
+	camionesP.push_front(tmp);
+}
+
+
+/*
+ *
+ */
+void seleccionPadresTorque() {
+	camionesT.sort();
+	camionesT.reverse();
+	CamionTorque* tmp = new CamionTorque();
+	CamionTorque* apto = new CamionTorque();
+	srand(0);
+	bool first = false;
+
+	for (list<CamionTorque*>::iterator i = camionesT.begin(); i != camionesT.end(); i++) {
+		tmp = *i;
+		if(!first){
+			if (tmp->apto >= (rand() % 100)) {
+				apto = tmp;
+				first = true;
+			}
+		}
+		else if (tmp->apto >= (rand() % 100)) {
+			// se envian apto y tmp a cruce
+			newSonTorque(apto,tmp);
+			first = false;
+		}
+	}
+}
+
+
+/*
+ *
+ */
+void seleccionPadresPliegue() {
+	camionesP.sort();
+	camionesP.reverse();
+	CamionPliegue* tmp = new CamionPliegue();
+	CamionPliegue* apto = new CamionPliegue();;
+	srand(0);
+	bool first = false;
+
+	for (list<CamionPliegue*>::iterator i = camionesP.begin(); i != camionesP.end(); i++) {
+		tmp = *i;
+		if (!first) {
+			if (tmp->apto >= (rand() % 100)) {
+				apto = tmp;
+				first = true;
+			}
+		}
+		else if (tmp->apto >= (rand() % 100)) {
+			// se envian apto y tmp a cruce
+			newSonPliegue(apto, tmp);
+			first = false;
+		}
+	}
+}
+
+
+/*
  *Input: un int que representa la cantidad de camiones por crear.
  *Output:Los arrays llenos de objetos.
  *Funcion:Crear nuevos camiones y guardarlos en los arrays.
@@ -439,32 +710,50 @@ void newTrucks(int pCantidadCamiones) {
 }
 
 /*
- *Input: dos objetos tipo camionTorque uno se toma como la madre y el otro como el padre
- *Output:Se crea un nuevo objeto tipo camionTorque
- *Funcion:Crear un nuevo hijo apartir de la combinacion de dos hijos.
- */
-void newSonTorque(CamionTorque pCamionMom, CamionTorque pCamionDad) {
-	//ver donde metemos los hijos
-	int cromosoma = combinacionTorque(pCamionMom, pCamionDad);
-	int energia = energyCalcTorque(cromosoma);
-	int torque = calcularTorque(energia);
-	//Aplicar la mutacion 
+ *
+ * */
+void algorGenetico() {
+
+	while (true) {
+		newTrucks(cantidadCamiones);							//Se inicia una poblacion desde 0
+		if (hiloGenetico) {
+			camionesT.sort();								//Ordeno las listas conforme el parametro de apto , asi llevamos un ranking
+			camionesP.sort();
+
+			CamionTorque* tmpTorque;							//Genero un temporal con un puntero al camion que trabajaremos
+
+			for (list<CamionTorque*>::iterator position = camionesT.begin(); position != camionesT.end(); position++) {
+				tmpTorque = *position;
+				int pEnergiaFirmeza = 7;						//Mando a llamar las funciones que calcula en cual torque entraria el dato del tramo
+				int pEnergiaHumedad = 8;
+				int pEnergiaAgarre = 9;
+				fitnessTorque(tmpTorque, road, pEnergiaFirmeza, pEnergiaHumedad, pEnergiaAgarre);		//Pasa cada uno de los camiones por la funcion de fitness 
+			}
+
+			CamionPliegue* tmpPliegue;						//Genero un temporal con un puntero al camion que trabajaremos en el caso del pliegue 
+			for (list<CamionPliegue*>::iterator element = camionesP.begin(); element != camionesP.end(); element++) {
+				tmpPliegue = *element;
+				int pEnergiaFirmeza = 7;						 //Mando a llamar las funciones que calcula en cual torque entraria el dato del tramo
+				int pEnergiaHumedad = 8;
+				int pEnergiaAgarre = 9;
+				fitnessPliegue(tmpPliegue, road, pEnergiaFirmeza, pEnergiaHumedad, pEnergiaAgarre);		//Pasa cada uno de los camiones por la funcion de fitness 
+			}
+
+			//Combinar 
+			//Revisar si se muta 
+			// cambiar banderas 
+			// ver repeticiones  
+
+
+		}
+	}
 
 }
+
 
 /*
- *Input: dos objetos tipo camionPliegue uno se toma como la madre y el otro como el padre
- *Output:Se crea un nuevo objeto tipo camionTorque
- *Funcion:Crear un nuevo hijo apartir de la combinacion de dos hijos.
+ *
  */
-void newSonPliegue(CamionPliegue pCamionMom, CamionPliegue pCamionDad) {
-	//ver donde metemos los hijos
-	int cromosoma = combinacionPliegue(pCamionMom, pCamionDad);
-	int energia = energyCalcPliegue(cromosoma);
-	int torque = calcularPliegue(energia);
-}
-
-
 int main() {
 
 	std::thread first (threadReader);
@@ -491,6 +780,4 @@ int main() {
 	first.join();
 	second.join();
 	
-
-
 }
