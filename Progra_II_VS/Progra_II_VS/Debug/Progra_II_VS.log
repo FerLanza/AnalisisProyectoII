@@ -1,11 +1,13 @@
-﻿  Progra_II_VS.cpp
-C:\Users\dylan\Desktop\GitHub\AnalisisProyectoII\Progra_II_VS\Progra_II_VS\Progra_II_VS.cpp(125,12): warning C4244: 'argumento': conversión de 'time_t' a 'unsigned int'; posible pérdida de datos
-C:\Users\dylan\Desktop\GitHub\AnalisisProyectoII\Progra_II_VS\Progra_II_VS\Progra_II_VS.cpp(146,12): warning C4244: 'argumento': conversión de 'time_t' a 'unsigned int'; posible pérdida de datos
-C:\Users\dylan\Desktop\GitHub\AnalisisProyectoII\Progra_II_VS\Progra_II_VS\Progra_II_VS.cpp(166,12): warning C4244: 'argumento': conversión de 'time_t' a 'unsigned int'; posible pérdida de datos
-C:\Users\dylan\Desktop\GitHub\AnalisisProyectoII\Progra_II_VS\Progra_II_VS\Progra_II_VS.cpp(193,12): warning C4244: 'argumento': conversión de 'time_t' a 'unsigned int'; posible pérdida de datos
-C:\Users\dylan\Desktop\GitHub\AnalisisProyectoII\Progra_II_VS\Progra_II_VS\Progra_II_VS.cpp(385,12): warning C4244: 'argumento': conversión de 'time_t' a 'unsigned int'; posible pérdida de datos
-C:\Users\dylan\Desktop\GitHub\AnalisisProyectoII\Progra_II_VS\Progra_II_VS\Progra_II_VS.cpp(393,14): warning C4244: 'inicializando': conversión de 'double' a 'int'; posible pérdida de datos
-C:\Users\dylan\Desktop\GitHub\AnalisisProyectoII\Progra_II_VS\Progra_II_VS\Progra_II_VS.cpp(395,15): warning C4244: 'inicializando': conversión de 'double' a 'int'; posible pérdida de datos
-C:\Users\dylan\Desktop\GitHub\AnalisisProyectoII\Progra_II_VS\Progra_II_VS\Progra_II_VS.cpp(414,14): warning C4244: 'inicializando': conversión de 'double' a 'int'; posible pérdida de datos
-C:\Users\dylan\Desktop\GitHub\AnalisisProyectoII\Progra_II_VS\Progra_II_VS\Progra_II_VS.cpp(426,14): warning C4244: 'inicializando': conversión de 'double' a 'int'; posible pérdida de datos
-  Progra_II_VS.vcxproj -> C:\Users\dylan\Desktop\GitHub\AnalisisProyectoII\Progra_II_VS\Debug\Progra_II_VS.exe
+﻿  JsonReader.cpp
+  Progra_II_VS.cpp
+C:\Users\ferla\OneDrive\Documents\GitHub\AnalisisProyectoII\Progra_II_VS\Progra_II_VS\Progra_II_VS.cpp(125,12): warning C4244: 'argumento': conversión de 'time_t' a 'unsigned int'; posible pérdida de datos
+C:\Users\ferla\OneDrive\Documents\GitHub\AnalisisProyectoII\Progra_II_VS\Progra_II_VS\Progra_II_VS.cpp(146,12): warning C4244: 'argumento': conversión de 'time_t' a 'unsigned int'; posible pérdida de datos
+C:\Users\ferla\OneDrive\Documents\GitHub\AnalisisProyectoII\Progra_II_VS\Progra_II_VS\Progra_II_VS.cpp(166,12): warning C4244: 'argumento': conversión de 'time_t' a 'unsigned int'; posible pérdida de datos
+C:\Users\ferla\OneDrive\Documents\GitHub\AnalisisProyectoII\Progra_II_VS\Progra_II_VS\Progra_II_VS.cpp(193,12): warning C4244: 'argumento': conversión de 'time_t' a 'unsigned int'; posible pérdida de datos
+C:\Users\ferla\OneDrive\Documents\GitHub\AnalisisProyectoII\Progra_II_VS\Progra_II_VS\Progra_II_VS.cpp(385,12): warning C4244: 'argumento': conversión de 'time_t' a 'unsigned int'; posible pérdida de datos
+C:\Users\ferla\OneDrive\Documents\GitHub\AnalisisProyectoII\Progra_II_VS\Progra_II_VS\Progra_II_VS.cpp(393,14): warning C4244: 'inicializando': conversión de 'double' a 'int'; posible pérdida de datos
+C:\Users\ferla\OneDrive\Documents\GitHub\AnalisisProyectoII\Progra_II_VS\Progra_II_VS\Progra_II_VS.cpp(395,15): warning C4244: 'inicializando': conversión de 'double' a 'int'; posible pérdida de datos
+C:\Users\ferla\OneDrive\Documents\GitHub\AnalisisProyectoII\Progra_II_VS\Progra_II_VS\Progra_II_VS.cpp(414,14): warning C4244: 'inicializando': conversión de 'double' a 'int'; posible pérdida de datos
+C:\Users\ferla\OneDrive\Documents\GitHub\AnalisisProyectoII\Progra_II_VS\Progra_II_VS\Progra_II_VS.cpp(426,14): warning C4244: 'inicializando': conversión de 'double' a 'int'; posible pérdida de datos
+  Generando código...
+  Progra_II_VS.vcxproj -> C:\Users\ferla\OneDrive\Documents\GitHub\AnalisisProyectoII\Progra_II_VS\Debug\Progra_II_VS.exe

@@ -39,6 +39,7 @@ list<CamionPliegue*> camionesP;
 Camino road;
 bool hiloReader = true;
 bool hiloGenetico = false;
+int cantidadCamiones = 200;
 
 /*
  *
@@ -80,6 +81,40 @@ void threadReader() {
  *
  * */
 void algorGenetico() {
+	
+	while (true) {
+		newTrucks(cantidadCamiones);							//Se inicia una poblacion desde 0
+		if (hiloGenetico) {
+			camionesT.sort();								//Ordeno las listas conforme el parametro de apto , asi llevamos un ranking
+			camionesP.sort();
+
+			CamionTorque* tmpTorque;							//Genero un temporal con un puntero al camion que trabajaremos
+
+			for (list<CamionTorque*>::iterator position = camionesT.begin(); position != camionesT.end(); position++) {
+				tmpTorque = *position;
+				int pEnergiaFirmeza = 7;						//Mando a llamar las funciones que calcula en cual torque entraria el dato del tramo
+				int pEnergiaHumedad = 8;
+				int pEnergiaAgarre = 9;
+				fitnessTorque(tmpTorque, road, pEnergiaFirmeza, pEnergiaHumedad, pEnergiaAgarre);		//Pasa cada uno de los camiones por la funcion de fitness 
+			}
+
+			CamionPliegue* tmpPliegue;						//Genero un temporal con un puntero al camion que trabajaremos en el caso del pliegue 
+			for (list<CamionPliegue*>::iterator element = camionesP.begin(); element != camionesP.end(); element++) {
+				tmpPliegue = *element;
+				int pEnergiaFirmeza = 7;						 //Mando a llamar las funciones que calcula en cual torque entraria el dato del tramo
+				int pEnergiaHumedad = 8;
+				int pEnergiaAgarre = 9;
+				fitnessPliegue(tmpPliegue, road, pEnergiaFirmeza, pEnergiaHumedad, pEnergiaAgarre);		//Pasa cada uno de los camiones por la funcion de fitness 
+			}
+
+			//Combinar 
+			//Revisar si se muta 
+			// cambiar banderas 
+			// ver repeticiones  
+
+
+		}
+	}
 
 }
 
@@ -90,13 +125,13 @@ void algorGenetico() {
  *esto se logra por medio de un promedio de las energias de los torques a los cuales entra cada atributo del tramo esto entre la energia del
  *camion por los km que debe recorrer.
  */
-void fitnessTorque(CamionTorque pCamion, Camino pCamino, int pEnergiaFirmeza, int pEnergiaHumedad, int pEnergiaAgarre) {
+void fitnessTorque(CamionTorque* pCamion, Camino pCamino, int pEnergiaFirmeza, int pEnergiaHumedad, int pEnergiaAgarre) {
 	int kmRecorridos = pCamino.kmEnd - pCamino.kmStart;
 
 	double adaptabilidad = (((((double)pEnergiaFirmeza + (double)pEnergiaHumedad + (double)pEnergiaAgarre) / 3) * (double)kmRecorridos)
-		/ ((double)pCamion.energia * (double)kmRecorridos));
+		/ ((double)pCamion->energia * (double)kmRecorridos));
 
-	pCamion.apto = adaptabilidad;
+	pCamion->apto = adaptabilidad;
 }
 
 /*
@@ -106,13 +141,13 @@ void fitnessTorque(CamionTorque pCamion, Camino pCamino, int pEnergiaFirmeza, in
  *esto se logra por medio de un promedio de las energias de los pliegues a los cuales entra cada atributo del tramo esto entre la energia del
  *camion por los km que debe recorrer.
  */
-void fitnessPliegue(CamionPliegue pCamion, Camino pCamino, int pEnergiaFirmeza, int pEnergiaHumedad, int pEnergiaAgarre) {
+void fitnessPliegue(CamionPliegue* pCamion, Camino pCamino, int pEnergiaFirmeza, int pEnergiaHumedad, int pEnergiaAgarre) {
 	int kmRecorridos = pCamino.kmEnd - pCamino.kmStart;
 
 	double adaptabilidad = (((((double)pEnergiaFirmeza + (double)pEnergiaHumedad + (double)pEnergiaAgarre) / 3) * (double)kmRecorridos)
-		/ ((double)pCamion.energia * (double)kmRecorridos));
+		/ ((double)pCamion->energia * (double)kmRecorridos));
 
-	pCamion.apto = adaptabilidad;
+	pCamion->apto = adaptabilidad;
 }
 
 /*
@@ -413,6 +448,8 @@ void newSonTorque(CamionTorque pCamionMom, CamionTorque pCamionDad) {
 	int cromosoma = combinacionTorque(pCamionMom, pCamionDad);
 	int energia = energyCalcTorque(cromosoma);
 	int torque = calcularTorque(energia);
+	//Aplicar la mutacion 
+
 }
 
 /*
@@ -433,7 +470,7 @@ int main() {
 	std::thread first (threadReader);
 	std::thread second (algorGenetico);
 
-	int cantidadCamiones = 200;
+	//int cantidadCamiones = 200;
 	newTrucks(cantidadCamiones);
 
 	for (list<CamionTorque*>::iterator i = camionesT.begin(); i != camionesT.end(); i++) {
