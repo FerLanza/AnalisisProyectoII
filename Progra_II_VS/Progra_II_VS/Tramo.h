@@ -10,6 +10,9 @@
 #ifndef TRAMO_H_
 #define TRAMO_H_
 
+/* Objeto en el cual se cargan los datos provenientes del .json
+ *		Usado dentro del stack principalmente
+ */
 struct Camino {
 
 	int kmStart = 0;

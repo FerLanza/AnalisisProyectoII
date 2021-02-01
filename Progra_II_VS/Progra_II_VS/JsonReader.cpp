@@ -4,9 +4,9 @@
 Camino Tramos[100];
 int contador = 0;
 
-/*
- *
- *
+/*  Crea el stack a partir de los datos cargados en el array Tramos, generando el stack enviable a el hilo de lectura.
+ * Inputs: Ninguno
+ * Outputs: El stack con los datos de los tramos
  */
 stack<Camino> stackCreator() {
     
@@ -19,9 +19,9 @@ stack<Camino> stackCreator() {
 }
 
 
-/*
- *
- * 
+/*	Encargado de leer el json entrante, del cual descompone la informacion a valores de entrada dados en el array de Tramos.
+ * Inputs: Ninguno
+ * Outputs: Ninguno
  */
 void fileReader() {
 
